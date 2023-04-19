@@ -4,7 +4,7 @@ namespace FunctionalRefactoring
 {
     public static class App
     {
-        public static void ApplyDiscount(CartId cartId, IStorage<Cart> storage)
+        internal static void ApplyDiscount(CartId cartId, IStorage<Cart> storage)
         {
             var cart = LoadCart(cartId);
             if (cart != Cart.MissingCart)

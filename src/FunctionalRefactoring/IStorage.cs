@@ -1,6 +1,6 @@
 ﻿namespace FunctionalRefactoring
 {
-    public interface IStorage<T>
+    internal interface IStorage<in T>
     {
         void Flush(T item);
     }

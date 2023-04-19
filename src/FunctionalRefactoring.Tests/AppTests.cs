@@ -6,7 +6,7 @@ namespace FunctionalRefactoring.Tests
     public class AppTests
     {
         [Fact]
-        public void HappyPath()
+        void HappyPath()
         {
             var cartId = new CartId("some-gold-cart");
             var storage = new SpyStorage();
@@ -19,7 +19,7 @@ namespace FunctionalRefactoring.Tests
         }
 
         [Fact]
-        public void NoDiscount()
+        void NoDiscount()
         {
             var cartId = new CartId("some-normal-cart");
             var storage = new SpyStorage();
@@ -30,7 +30,7 @@ namespace FunctionalRefactoring.Tests
         }
 
         [Fact]
-        public void MissingCart()
+        void MissingCart()
         {
             var cartId = new CartId("missing-cart");
             var storage = new SpyStorage();
@@ -42,9 +42,9 @@ namespace FunctionalRefactoring.Tests
 
         class SpyStorage : IStorage<Cart>
         {
-            public Cart Saved { get; private set; }
+            internal Cart Saved { get; private set; }
 
-            public void Flush(Cart item)
+            void IStorage<Cart>.Flush(Cart item)
             {
                 Saved = item;
             }
