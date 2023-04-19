@@ -7,16 +7,10 @@ namespace FunctionalRefactoring
         internal static void ApplyDiscount(CartId cartId, IStorage<Cart> storage)
         {
             var cart = LoadCart(cartId);
-            if (cart != Cart.MissingCart)
-            {
-                var rule = LookupDiscountRule(cart.CustomerId);
-                if (rule != DiscountRule.NoDiscount)
-                {
-                    var discount = rule.Compute(cart);
-                    var updatedCart = UpdateAmount(cart, discount);
-                    Save(updatedCart, storage);
-                }
-            }
+            var rule = LookupDiscountRule(cart.CustomerId);
+            var discount = rule.Compute(cart);
+            var updatedCart = UpdateAmount(cart, discount);
+            Save(updatedCart, storage);
         }
 
         static Cart LoadCart(CartId id)
@@ -25,13 +19,13 @@ namespace FunctionalRefactoring
                 return new Cart(id, new CustomerId("gold-customer"), new Amount(100));
             if (id.Value.Contains("normal"))
                 return new Cart(id, new CustomerId("normal-customer"), new Amount(100));
-            return Cart.MissingCart;
+            return null;
         }
 
         static DiscountRule LookupDiscountRule(CustomerId id)
         {
             if (id.Value.Contains("gold")) return new DiscountRule(Half);
-            return DiscountRule.NoDiscount;
+            return null;
         }
 
         static Cart UpdateAmount(Cart cart, Amount discount)
@@ -42,10 +36,10 @@ namespace FunctionalRefactoring
             };
         }
 
-        static void Save(Cart cart, IStorage<Cart> storage) => 
+        static void Save(Cart cart, IStorage<Cart> storage) =>
             storage.Flush(cart);
 
-        static Amount Half(Cart cart) => 
+        static Amount Half(Cart cart) =>
             new(cart.Amount.Value / 2);
     }
 }
