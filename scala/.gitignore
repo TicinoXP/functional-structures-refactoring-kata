@@ -1,7 +1,0 @@
-### Scala ###
-target/*
-project/project/*
-project/target/*
-
-### Intellij ###
-.idea/*
