@@ -36,15 +36,16 @@ namespace FunctionalRefactoring
 
         static Cart UpdateAmount(Cart cart, Amount discount)
         {
-            return new Cart(cart.Id, cart.CustomerId, new Amount(cart.Amount.Value - discount.Value));
+            return cart with
+            {
+                Amount = new Amount(cart.Amount.Value - discount.Value)
+            };
         }
 
-        static void Save(Cart cart, IStorage<Cart> storage)
-        {
+        static void Save(Cart cart, IStorage<Cart> storage) => 
             storage.Flush(cart);
-        }
 
-        static Amount Half(Cart cart) =>
-            new Amount(cart.Amount.Value / 2);
+        static Amount Half(Cart cart) => 
+            new(cart.Amount.Value / 2);
     }
 }
